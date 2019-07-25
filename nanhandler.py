@@ -1,7 +1,6 @@
 """
 Process missing data within a dataset. 
-Built on pandas DataFrame.
-Requires pandas and missingno libraries.
+Requires pandas and missingno.
 """
 import missingno as msno
 import pandas as pd
@@ -25,7 +24,16 @@ def remove_rows_by_col(df: DataFrame, col: str) -> DataFrame:
 
 def impute(df: DataFrame, col: str, strategy: str = "zero"):
 	"""
-	Impute missing data in column. Random sampling hot decking.
+	Impute missing data in column.
+		df - data dataframe
+		col - target column label
+		strategy - imputation strategy
+			zero: replaces NA with 0
+			mean: replaces NA with the mean
+			median: replaces NA with the median
+			most frequent: replaces NA with one the mode
+			empty: replaces NA with an empty str i.e. ""
+			hot deck: replaces NA with a random sample of non-NA data
 	"""
 	data = df.copy()
 
@@ -49,13 +57,12 @@ def impute(df: DataFrame, col: str, strategy: str = "zero"):
 		filler_data = valid_data.sample(sample_len, replace=True).values
 	else:
 		raise Exception("Not a valid impute strategy")
-
 	data[col][data[col].isnull()] = filler_data
 	return(data)
 
 
 def generate_binaries(df:DataFrame, cols: list):
-	"""Add binary variables dependent on null vals"""
+	"""Add binary variables to specify whether obs is na"""
 	data = df.copy()
 	for col in cols:
 		data[col+"_na"] = ~data[col].isnull()
@@ -68,10 +75,8 @@ def no_by_col(df: DataFrame):
 
 
 def replace_defects(df: DataFrame, col: str, replacement_pairs: list):
-	"""Replaces """
+	"""Row replacement for str based columns"""
 	data = df.copy()
-
 	for key, item in replacement_pairs.items():
 		data[col] = data[col].apply(lambda x: x.replace(key, item))
-
 	return(data)
