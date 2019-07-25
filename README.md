@@ -1,4 +1,5 @@
 # datsup
 Data Science Support Library
 
-NaNHandler - mini module designed to visualize, impute or remove missing data.
+NaNHandler - visualize, impute or remove missing data
+PGAdapter - interfacing with a PostgreSQL server
