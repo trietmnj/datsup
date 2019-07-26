@@ -51,7 +51,7 @@ def impute(df: DataFrame, col: str, strategy: str = "zero"):
 	elif strategy == "empty":
 		filler_data = ""
 	elif strategy == "hot deck":
-		# replaces NaNs with random samples from valid data pool
+		# replaces NaNs with random samples from the valid data pool
 		valid_data = data[col][~data[col].isnull()]
 		sample_len = len(data[col][data[col].isnull()])
 		filler_data = valid_data.sample(sample_len, replace=True).values

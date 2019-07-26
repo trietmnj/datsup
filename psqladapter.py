@@ -1,9 +1,12 @@
+"""
+The contained DatabaseManager class aims to maintain a single interface to a PostgreSQL
+    database during the session
+"""
 import configparser
 import psycopg2 as pg2
 from pandas import DataFrame
 import pandas as pd
 from typing import List
-
 
 class DatabaseManager:
     """
@@ -32,7 +35,7 @@ class DatabaseManager:
         return self._cursor
 
     def commit(self):
-        '''Commit pending transaction to database'''
+        '''Commit pending transactions to database'''
         self.conn.commit()
 
     def __init__(self, database, user, password):
@@ -74,28 +77,28 @@ class DatabaseManager:
         sql += ');'
         self.cursor.execute(sql)
 
-    def insert_row(self, table:str, data): 
-        """
-        Insert data row wise into a single table. Returns primary key id
-        """
-        if not isinstance(data, dict):
-            raise TypeError('values should be a dict')
+    # def insert_row(self, table:str, data): 
+    #     """
+    #     Insert data row wise into a single table. Returns primary key id
+    #     """
+    #     if not isinstance(data, dict):
+    #         raise TypeError('values should be a dict')
 
-        vars = ', '.join(list(data.keys()))
-        questions = ', '.join(['?' for _ in data])
-        values = tuple(data.values())
+    #     vars = ', '.join(list(data.keys()))
+    #     questions = ', '.join(['?' for _ in data])
+    #     values = tuple(data.values())
 
-        sql = 'INSERT OR IGNORE INTO {} ({}) VALUES ({})'.format(table, vars, questions)
-        self.cursor.execute(sql, values)
+    #     sql = 'INSERT OR IGNORE INTO {} ({}) VALUES ({})'.format(table, vars, questions)
+    #     self.cursor.execute(sql, values)
 
-        conditions = 'AND '.join([' {}=? '.format(k) for k in data.keys()])
-        sql = 'SELECT id FROM {} WHERE {}'.format(table, conditions)
-        self.cursor.execute(sql, values)
-        id = self.cursor.fetchone()[0]
+    #     conditions = 'AND '.join([' {}=? '.format(k) for k in data.keys()])
+    #     sql = 'SELECT id FROM {} WHERE {}'.format(table, conditions)
+    #     self.cursor.execute(sql, values)
+    #     id = self.cursor.fetchone()[0]
 
-        if id is None:
-            raise Exception('Unable to retrieve id from {}'.format(table))
-        return id
+    #     if id is None:
+    #         raise Exception('Unable to retrieve id from {}'.format(table))
+    #     return id
 
     def get_data(self, sql:str) -> DataFrame:
         '''
