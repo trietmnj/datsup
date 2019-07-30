@@ -10,18 +10,15 @@ from typing import List
 
 class DatabaseManager:
     """
-    The object manages the Requires foreign key having the same name as the matching primary key
+    Manages the connection to a PostgreSQL database. Make sure to run .commit() to update changes.
 
     :methods:
-        _init__:
-        _load_settings: 
-        _setup_connection: 
-        _create_table: 
+        __init__:
+        create_table: 
 
     :attributes (read-only):
         conn
         cursor
-        config
 
     """
     @property
@@ -38,22 +35,22 @@ class DatabaseManager:
         '''Commit pending transactions to database'''
         self.conn.commit()
 
-    def __init__(self, database, user, password):
+    def __init__(self, host, database, user, password):
         '''Setup connection'''
-        self._conn = pg2.connect(database=database, user=user, password=password)
+        self._conn = pg2.connect(host=host, database=database, user=user, password=password)
         self._cursor = self._conn.cursor()
 
     def __del__(self):
         '''Close connection to database'''
         self.close()
 
-    def create_table(self, table:str, data_vars: list, foreign_keys=[], drop=False, verify=False):
+    def create_table(self, table:str, data_vars: dict, foreign_keys=[], drop=False, verify=False):
         '''
-        Drop and recreate table. Must set both drop and verify to True.
+        Drop and recreate table. Must set verify to authenticate action.
         
         db.create_table(
             table='customer', 
-            data_vars=['name VARCHAR()', 'address VARCHAR()'],
+            data_vars=dict(name='VARCHAR(20)', address='VARCHAR(50)'),
             foreign_keys=['store', 'address']
             drop=True,
             verify=True
@@ -76,6 +73,10 @@ class DatabaseManager:
             sql += ', {} {}'.format(var[0], var[1])
         sql += ');'
         self.cursor.execute(sql)
+
+    #########################################################
+    #   From prior project with sqlite - reimplement!!!
+    #########################################################
 
     # def insert_row(self, table:str, data): 
     #     """
@@ -110,20 +111,17 @@ class DatabaseManager:
             raise Exception('SQL is specifying a drop command')
         return(pd.read_sql(sql, self._conn))
 
+    def test_query(self, sql):
+        '''Limit selected data to the first 5 entries'''
+        sql += " limit 5"
+        return self.get_data(sql)
+
     def close(self):
         """
         Close cursor and conn
         """
         self.cursor.close()
         self.conn.close()
-
-    # def self_join(self):
-    #     pass
-
-    # def inner_join(self, cols: List[str], table1, table2):
-    #     sql = 'select '
-    #     for col in cols:
-    #         sql += col + ' '
 
     
 

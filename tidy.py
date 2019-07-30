@@ -1,6 +1,10 @@
+'''Raw data manipulation. Included tools aim to turn data set "tidy"'''
+
+
 import pandas as pd
 from pandas import DataFrame
 from typing import List
+import sklearn
 
 
 def flag_default_index(df:DataFrame) -> bool:
@@ -9,7 +13,7 @@ def flag_default_index(df:DataFrame) -> bool:
 
 
 def melt(df:DataFrame, id_var_list:list, var_name:str, value_name:str) -> DataFrame:
-    '''Unpivot DataFrame to a long format. Reset indexing as applicable'''
+    '''Unpivot DataFrame to long format. Reset indexing as applicable'''
     data = df.copy()
     if not flag_default_index(df):
         idx_name = df.index.name
