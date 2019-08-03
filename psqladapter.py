@@ -74,32 +74,6 @@ class DatabaseManager:
         sql += ');'
         self.cursor.execute(sql)
 
-    #########################################################
-    #   From prior project with sqlite - reimplement!!!
-    #########################################################
-
-    # def insert_row(self, table:str, data): 
-    #     """
-    #     Insert data row wise into a single table. Returns primary key id
-    #     """
-    #     if not isinstance(data, dict):
-    #         raise TypeError('values should be a dict')
-
-    #     vars = ', '.join(list(data.keys()))
-    #     questions = ', '.join(['?' for _ in data])
-    #     values = tuple(data.values())
-
-    #     sql = 'INSERT OR IGNORE INTO {} ({}) VALUES ({})'.format(table, vars, questions)
-    #     self.cursor.execute(sql, values)
-
-    #     conditions = 'AND '.join([' {}=? '.format(k) for k in data.keys()])
-    #     sql = 'SELECT id FROM {} WHERE {}'.format(table, conditions)
-    #     self.cursor.execute(sql, values)
-    #     id = self.cursor.fetchone()[0]
-
-    #     if id is None:
-    #         raise Exception('Unable to retrieve id from {}'.format(table))
-    #     return id
 
     def get_data(self, sql:str) -> DataFrame:
         '''
