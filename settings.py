@@ -2,7 +2,7 @@ import configparser
 
 
 def readConfig(filePath):
-    """Converts data from ini file to dict"""
+    """Converts data from an ini file to dict"""
     config = configparser.ConfigParser()
     config.read(filePath)
 

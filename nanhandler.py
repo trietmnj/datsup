@@ -3,7 +3,6 @@ Process missing data within a dataset.
 Requires pandas and missingno.
 """
 import missingno as msno
-import pandas as pd
 from pandas import DataFrame
 
 
@@ -12,12 +11,12 @@ def visualize(df):
 	msno.matrix(df)
 
 
-def remove_rows(df: DataFrame) -> DataFrame:
+def removeRows(df: DataFrame) -> DataFrame:
 	"""Removes all rows with NaN data from DataFrame"""
 	return(df.dropna().reset_index(drop=True))
 
 
-def remove_rows_by_col(df: DataFrame, col: str) -> DataFrame:
+def removeRowsByCol(df: DataFrame, col: str) -> DataFrame:
 	"""Removes all rows with missing cells in specified column"""
 	return(df[~df[col].isna()].reset_index(drop=True))
 
@@ -61,7 +60,7 @@ def impute(df: DataFrame, col: str, strategy: str = "zero"):
 	return(data)
 
 
-def generate_binaries(df:DataFrame, cols: list):
+def generateBinaries(df:DataFrame, cols: list):
 	"""Add binary variables to specify whether obs is na"""
 	data = df.copy()
 	for col in cols:
@@ -69,12 +68,12 @@ def generate_binaries(df:DataFrame, cols: list):
 	return(data)
 
 
-def no_by_col(df: DataFrame):
+def noMissingByCol(df: DataFrame):
 	"""Count the number of missing data in each column"""
 	return(df.isna().sum())
 
 
-def replace_defects(df: DataFrame, col: str, replacement_pairs: list):
+def replaceDefects(df: DataFrame, col: str, replacement_pairs: list):
 	""" Row replacement for str based columns
 		data = nan.replace_defects()
 	"""

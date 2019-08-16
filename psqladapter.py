@@ -44,14 +44,14 @@ class DatabaseManager:
         '''Close connection to database'''
         self.close()
 
-    def create_table(self, table: str, data_vars: dict, foreign_keys=[], drop=False, verify=False):
+    def createTable(self, table: str, dataVars: dict, foreignKeys=[], drop=False, verify=False):
         '''
         Drop and recreate table. Must set verify to authenticate action.
 
-        db.create_table(
+        db.createTable(
             table='customer', 
-            data_vars=dict(name='VARCHAR(20)', address='VARCHAR(50)'),
-            foreign_keys=['store', 'address']
+            dataVars=dict(name='VARCHAR(20)', address='VARCHAR(50)'),
+            foreignKeys=['store', 'address']
             drop=True,
             verify=True
             )
@@ -63,18 +63,18 @@ class DatabaseManager:
             sql = 'DROP TABLE IF EXISTS {};'.format(table)
             self.cursor.execute(sql)
 
-        foreign_keys = [str.lower() for str in foreign_keys]
+        foreignKeys = [str.lower() for str in foreignKeys]
         # create table
         sql = '''CREATE TABLE IF NOT EXISTS {} (
             {}_id SERIAL PRIMARY KEY'''.format(table, table)
-        for key in foreign_keys:
+        for key in foreignKeys:
             sql += ', {}_id INTEGER'.format(key)
-        for var in data_vars.items():
+        for var in dataVars.items():
             sql += ', {} {}'.format(var[0], var[1])
         sql += ');'
         self.cursor.execute(sql)
 
-    def get_data(self, sql: str) -> DataFrame:
+    def getData(self, sql: str) -> DataFrame:
         '''
         Returns query data inside a DataFrame
         
@@ -84,10 +84,10 @@ class DatabaseManager:
             raise Exception('SQL is specifying a drop command')
         return(pd.read_sql(sql, self._conn))
 
-    def test_query(self, sql):
+    def testQuery(self, sql):
         '''Limit selected data to the first 5 entries'''
         sql += " limit 5"
-        return self.get_data(sql)
+        return self.getData(sql)
 
     def close(self):
         """
@@ -95,9 +95,3 @@ class DatabaseManager:
         """
         self.cursor.close()
         self.conn.close()
-
-    
-
-
-
-
