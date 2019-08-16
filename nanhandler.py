@@ -75,7 +75,9 @@ def no_by_col(df: DataFrame):
 
 
 def replace_defects(df: DataFrame, col: str, replacement_pairs: list):
-	"""Row replacement for str based columns"""
+	""" Row replacement for str based columns
+		data = nan.replace_defects()
+	"""
 	data = df.copy()
 	for key, item in replacement_pairs.items():
 		data[col] = data[col].apply(lambda x: x.replace(key, item))
