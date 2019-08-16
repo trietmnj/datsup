@@ -2,19 +2,19 @@
 The contained DatabaseManager class aims to maintain a single interface to a PostgreSQL
     database during the session
 """
-import configparser
 import psycopg2 as pg2
 from pandas import DataFrame
 import pandas as pd
-from typing import List
+
 
 class DatabaseManager:
     """
-    Manages the connection to a PostgreSQL database. Make sure to run .commit() to update changes.
+    Manages the connection to a PostgreSQL database.
+    Make sure to run .commit() to update changes.
 
     :methods:
         __init__:
-        create_table: 
+        create_table:
 
     :attributes (read-only):
         conn
@@ -44,10 +44,10 @@ class DatabaseManager:
         '''Close connection to database'''
         self.close()
 
-    def create_table(self, table:str, data_vars: dict, foreign_keys=[], drop=False, verify=False):
+    def create_table(self, table: str, data_vars: dict, foreign_keys=[], drop=False, verify=False):
         '''
         Drop and recreate table. Must set verify to authenticate action.
-        
+
         db.create_table(
             table='customer', 
             data_vars=dict(name='VARCHAR(20)', address='VARCHAR(50)'),
@@ -74,8 +74,7 @@ class DatabaseManager:
         sql += ');'
         self.cursor.execute(sql)
 
-
-    def get_data(self, sql:str) -> DataFrame:
+    def get_data(self, sql: str) -> DataFrame:
         '''
         Returns query data inside a DataFrame
         
