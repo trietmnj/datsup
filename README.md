@@ -7,4 +7,4 @@ PSQLAdapter - interfacing with a PostgreSQL server
 
 Tidy - tidy data with basic pandas manipulation
 
-Settings - .ini processin
+Settings - .ini setting file processing
