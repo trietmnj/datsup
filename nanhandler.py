@@ -1,6 +1,5 @@
 """
 Process missing data within a dataset. 
-Requires pandas and missingno.
 """
 import missingno as msno
 from pandas import DataFrame
@@ -63,7 +62,7 @@ def impute(df: DataFrame, col: str, strategy: str = "zero"):
 
 
 def generateBinaries(df:DataFrame, cols: list):
-	"""Add binary variables to specify whether obs is na"""
+	"""Add binary variables to specify whether cell is na"""
 	data = df.copy()
 	for col in cols:
 		data[col+"_na"] = ~data[col].isnull()
@@ -71,14 +70,12 @@ def generateBinaries(df:DataFrame, cols: list):
 
 
 def noMissingByCol(df: DataFrame):
-	"""Count the number of missing data in each column"""
+	"""Count the number of missing cells in each column"""
 	return(df.isna().sum())
 
 
 def replaceDefects(df: DataFrame, col: str, replacement_pairs: list):
-	""" Row replacement for str based columns
-		data = nan.replaceDefects()
-	"""
+	"""Row replacement for str based columns"""
 	data = df.copy()
 	for key, item in replacement_pairs.items():
 		data[col] = data[col].apply(lambda x: x.replace(key, item))

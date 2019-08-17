@@ -1,6 +1,6 @@
 """
-The contained DatabaseManager class aims to maintain a single interface to a PostgreSQL
-    database during the session
+The contained DatabaseManager class aims to maintain a single interface to a 
+PostgreSQL database during a running session
 """
 import psycopg2 as pg2
 from pandas import DataFrame

@@ -1,3 +1,4 @@
+"""Setting files processing."""
 import configparser
 
 
