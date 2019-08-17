@@ -13,13 +13,17 @@ class DatabaseManager:
     Make sure to run .commit() to update changes.
 
     :methods:
-        __init__:
-        create_table:
+        __init__
+        __del__
+        createTable
+        commit
+        getData
+        testQuery
+        close
 
     :attributes (read-only):
         conn
         cursor
-
     """
     @property
     def conn(self):
@@ -62,6 +66,7 @@ class DatabaseManager:
         if drop:
             sql = 'DROP TABLE IF EXISTS {};'.format(table)
             self.cursor.execute(sql)
+            self.commit()
 
         foreignKeys = [str.lower() for str in foreignKeys]
         # create table
@@ -73,12 +78,14 @@ class DatabaseManager:
             sql += ', {} {}'.format(var[0], var[1])
         sql += ');'
         self.cursor.execute(sql)
+        self.commit()
 
     def getData(self, sql: str) -> DataFrame:
         '''
         Returns query data inside a DataFrame
         
-        data = db.get_data('SELECT * FROM customer')
+        data = db.get_datacur.execute(
+            ('SELECT * FROM customer')
         '''
         if 'drop' in sql:
             raise Exception('SQL is specifying a drop command')
@@ -95,3 +102,11 @@ class DatabaseManager:
         """
         self.cursor.close()
         self.conn.close()
+
+    def runSQL(self, sql: str, verify=False):
+        "Run manual SQL, must verify"
+        if not verify:
+            raise Exception('Must set verify=True to run custom SQL')
+
+        self.cursor.execute(sql)
+        self.commit()
