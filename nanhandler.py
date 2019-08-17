@@ -12,7 +12,7 @@ def visualize(df):
 
 
 def removeRows(df: DataFrame) -> DataFrame:
-	"""Removes all rows with NaN data from DataFrame"""
+	"""Removes all rows with NaN cells"""
 	return(df.dropna().reset_index(drop=True))
 
 
@@ -50,7 +50,9 @@ def impute(df: DataFrame, col: str, strategy: str = "zero"):
 	elif strategy == "empty":
 		filler_data = ""
 	elif strategy == "hot deck":
-		# replaces NaNs with random samples from the valid data pool
+        # replaces NaNs with random samples from the valid data pool.
+        # The sampling is with replacement incase the valid sample
+        # size is too small
 		valid_data = data[col][~data[col].isnull()]
 		sample_len = len(data[col][data[col].isnull()])
 		filler_data = valid_data.sample(sample_len, replace=True).values
@@ -75,7 +77,7 @@ def noMissingByCol(df: DataFrame):
 
 def replaceDefects(df: DataFrame, col: str, replacement_pairs: list):
 	""" Row replacement for str based columns
-		data = nan.replace_defects()
+		data = nan.replaceDefects()
 	"""
 	data = df.copy()
 	for key, item in replacement_pairs.items():
