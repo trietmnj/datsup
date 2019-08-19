@@ -3,6 +3,7 @@ Process missing data within a dataset.
 """
 import missingno as msno
 from pandas import DataFrame
+from typing import List
 
 
 def visualize(df):
@@ -74,7 +75,7 @@ def noMissingByCol(df: DataFrame):
 	return(df.isna().sum())
 
 
-def replaceDefects(df: DataFrame, col: str, replacement_pairs: dict):
+def replaceDefects(df: DataFrame, col: str, replacement_pairs: List[dict]):
 	"""Row replacement for str based columns"""
 	data = df.copy()
 	for key, item in replacement_pairs.items():

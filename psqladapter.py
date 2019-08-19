@@ -41,7 +41,7 @@ class DatabaseManager:
 
     def __init__(self, host, database, user, password):
         '''Setup connection'''
-        self._conn = pg2.connect(host=host, database=database, user=user, password=password)
+        self._conn = pg2.connect(host>=host, database=database, user=user, password=password)
         self._cursor = self._conn.cursor()
 
     def __del__(self):
@@ -68,7 +68,6 @@ class DatabaseManager:
             self.cursor.execute(sql)
             self.commit()
 
-        foreignKeys = [str.lower() for str in foreignKeys]
         # create table
         sql = '''CREATE TABLE IF NOT EXISTS {} (
             {}_id SERIAL PRIMARY KEY'''.format(table, table)
