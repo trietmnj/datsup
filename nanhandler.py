@@ -3,6 +3,7 @@ Process missing data within a dataset.
 """
 import missingno as msno
 from pandas import DataFrame
+from pandas import Series
 from typing import List
 
 
@@ -21,7 +22,7 @@ def removeRowsByCol(df: DataFrame, col: str) -> DataFrame:
 	return(df[~df[col].isna()].reset_index(drop=True))
 
 
-def impute(df: DataFrame, col: str, strategy: str = "zero"):
+def impute(df: DataFrame, col: str, strategy: str = "zero") -> DataFrame:
 	"""
 	Impute missing data in column.
 		df - data dataframe
@@ -62,7 +63,7 @@ def impute(df: DataFrame, col: str, strategy: str = "zero"):
 	return(data)
 
 
-def generateBinaries(df:DataFrame, cols: list):
+def generateBinaries(df:DataFrame, cols: List[str]) -> DataFrame:
 	"""Add binary variables to specify whether cell is na"""
 	data = df.copy()
 	for col in cols:
@@ -70,12 +71,12 @@ def generateBinaries(df:DataFrame, cols: list):
 	return(data)
 
 
-def noMissingByCol(df: DataFrame):
+def noMissingByCol(df: DataFrame) -> Series:
 	"""Count the number of missing cells in each column"""
 	return(df.isna().sum())
 
 
-def replaceDefects(df: DataFrame, col: str, replacement_pairs: List[dict]):
+def replaceDefects(df: DataFrame, col: str, replacement_pairs: List[dict]) -> DataFrame:
 	"""Row replacement for str based columns"""
 	data = df.copy()
 	for key, item in replacement_pairs.items():
