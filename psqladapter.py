@@ -41,7 +41,7 @@ class DatabaseManager:
 
     def __init__(self, host, database, user, password):
         '''Setup connection'''
-        self._conn = pg2.connect(host>=host, database=database, user=user, password=password)
+        self._conn = pg2.connect(host=host, database=database, user=user, password=password)
         self._cursor = self._conn.cursor()
 
     def __del__(self):
@@ -91,8 +91,8 @@ class DatabaseManager:
         return(pd.read_sql(sql, self._conn))
 
     def testQuery(self, sql):
-        '''Limit selected data to the first 5 entries'''
-        sql += " limit 5"
+        '''Limit selected data to the first 10 entries'''
+        sql += " limit 10"
         return self.getData(sql)
 
     def close(self):
