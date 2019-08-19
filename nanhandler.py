@@ -76,7 +76,7 @@ def noMissingByCol(df: DataFrame) -> Series:
 	return(df.isna().sum())
 
 
-def replaceDefects(df: DataFrame, col: str, replacement_pairs: List[dict]) -> DataFrame:
+def replaceDefects(df: DataFrame, col: str, replacement_pairs: dict) -> DataFrame:
 	"""Row replacement for str based columns"""
 	data = df.copy()
 	for key, item in replacement_pairs.items():
