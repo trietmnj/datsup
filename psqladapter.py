@@ -83,12 +83,15 @@ class DatabaseManager:
         '''
         Returns query data inside a DataFrame
         
-        data = db.get_datacur.execute(
-            ('SELECT * FROM customer')
+        data = db.getData('SELECT * FROM customer')
         '''
         if 'drop' in sql:
             raise Exception('SQL is specifying a drop command')
-        return(pd.read_sql(sql, self._conn))
+        data = pd.read_sql(sql, self._conn)
+        if len(data) == 0:
+            return None
+        else:
+            return data
 
     def testQuery(self, sql):
         '''Limit selected data to the first 10 entries'''
