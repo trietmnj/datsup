@@ -81,7 +81,8 @@ class DatabaseManager:
 
     def getData(self, sql: str) -> DataFrame:
         '''
-        Returns query data inside a DataFrame
+        Returns query data inside a DataFrame. Returns None if there is no 
+        corresponding entry
         
         data = db.getData('SELECT * FROM customer')
         '''
@@ -112,3 +113,10 @@ class DatabaseManager:
 
         self.cursor.execute(sql)
         self.commit()
+
+    def queryId(self, selectSql, insertSql):
+        """Query for key, ensures obs exists"""
+        idResult = self.getData(selectSql)
+        if idResult is None:
+            self.runSQL(insertSql)
+        return self.getData(selectSql).iloc[0]
