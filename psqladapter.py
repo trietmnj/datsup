@@ -118,5 +118,5 @@ class DatabaseManager:
         """Query for key, ensures obs exists"""
         idResult = self.getData(selectSql)
         if idResult is None:
-            self.runSQL(insertSql)
-        return self.getData(selectSql).iloc[0]
+            self.runSQL(insertSql, verify=True)
+        return self.getData(selectSql).values[0][0]
