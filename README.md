@@ -1,10 +1,14 @@
 # datsup
 Data Science Support Library
 
-NaNHandler - visualize, impute or remove missing data
+cleanData - general DataFrame manipulation
 
-PSQLAdapter - interfacing with a PostgreSQL server
+log - setup a cookie-cutter logger 
 
-Tidy - tidy data with basic pandas manipulation
+nanHandler - visualize, impute or remove missing data
 
-Settings - .ini setting file processing
+psqlAdapter - interfacing with a PostgreSQL server
+
+tidy - tidy data with basic pandas manipulation
+
+settings - .ini setting file processing
