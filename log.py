@@ -1,4 +1,5 @@
 import logging
+import sys
 
 
 class LogManager:
@@ -11,19 +12,16 @@ class LogManager:
     def setupLogger(self, filePath):
         """Set up console and file handlers"""
         # console handler
-        cHandler = logging.StreamHandler()
+        cHandler = logging.StreamHandler(sys.stdout)
         cHandler.setLevel(logging.WARNING)
-        cFormatting = logging.Formatter(
-            '%(asctime)s - %(levelname)s - %(message)s')
-        cHandler.setFormatter(cFormatting)
-
         # file handler
         fHandler = logging.FileHandler(filePath, mode='a') 
         fHandler.setLevel(logging.ERROR)
-        fFormatting = logging.Formatter(
-            '%(asctime)s - %(name)s - %(message)s', '%d/%m/%Y %H:%M:%S')
-        fHandler.setFormatter(fFormatting)
 
+        formatter = logging.Formatter(
+            '%(asctime)s - %(levelname)s - %(message)s', '%d/%m/%Y %H:%M:%S')
+        cHandler.setFormatter(formatter)
+        fHandler.setFormatter(formatter)
         self.logger.addHandler(cHandler)
         self.logger.addHandler(fHandler)
 
@@ -32,8 +30,3 @@ class LogManager:
 
     def logWarning(self, msg):
         self.logger.warning(msg)
-
-
-def appendLinetoFile(filePath: str, string: str):
-    with open(filePath, 'a') as f:
-        f.write(f'{string}\n')
