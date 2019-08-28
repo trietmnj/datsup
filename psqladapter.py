@@ -5,7 +5,8 @@ PostgreSQL database during a running session
 import psycopg2 as pg2
 from pandas import DataFrame
 import pandas as pd
-
+import re
+from datsup import exceptions
 
 class DatabaseManager:
     """
@@ -62,7 +63,8 @@ class DatabaseManager:
         '''
 
         if not verify:
-            raise Exception('Must set verify=True to create new table')
+            raise exceptions.FalseVerifyException(
+                'Must set verify=True to create new table')
         if drop:
             sql = 'DROP TABLE IF EXISTS {};'.format(table)
             self.cursor.execute(sql)
@@ -86,8 +88,12 @@ class DatabaseManager:
         
         data = db.getData('SELECT * FROM customer')
         '''
-        if 'drop' in sql:
-            raise Exception('SQL is specifying a drop command')
+        if 'drop' in sql and (
+            len(re.findall("(?<=').+drop.+(?=')", sql)) \
+                != len(re.findall('drop', sql))): # check for malicious DROP
+            print(sql)
+            raise exceptions.SQLDropException(
+                'SQL query is specifying a drop command')
         data = pd.read_sql(sql, self._conn)
         if len(data) == 0:
             return None
@@ -109,7 +115,8 @@ class DatabaseManager:
     def runSQL(self, sql: str, verify=False):
         "Run manual SQL, must verify"
         if not verify:
-            raise Exception('Must set verify=True to run custom SQL')
+            raise exceptions.FalseVerifyException(
+                'Must set verify=True to run custom SQL')
 
         self.cursor.execute(sql)
         self.commit()
