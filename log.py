@@ -19,7 +19,7 @@ class LogManager:
         fHandler.setLevel(logging.ERROR)
 
         formatter = logging.Formatter(
-            '%(asctime)s - %(levelname)s - %(message)s', '%d/%m/%Y %H:%M:%S')
+            '%(asctime)s - %(levelname)s - %(message)s', '%m/%d/%Y %H:%M:%S')
         cHandler.setFormatter(formatter)
         fHandler.setFormatter(formatter)
         self.logger.addHandler(cHandler)
@@ -27,6 +27,6 @@ class LogManager:
 
     def logError(self, exception):
         self.logger.error(exception)
-
+    
     def logWarning(self, msg):
         self.logger.warning(msg)
