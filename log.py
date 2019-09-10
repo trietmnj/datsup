@@ -1,5 +1,6 @@
 import logging
 import sys
+import datetime
 
 
 class LogManager:
@@ -30,3 +31,9 @@ class LogManager:
     
     def logWarning(self, msg):
         self.logger.warning(msg)
+
+
+def timestampPrintToConsole(msg: str):
+    now = datetime.datetime.now()
+    print(f'{now.month:02.0f}/{now.day:02.0f}/{now.year:02.0f} ' +
+        f'{now.hour:02.0f}:{now.minute:02.0f}:{now.second:02.0f} - ' + msg)
