@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import itertools
 
 
 def dateInRange(startDate: pd.Timestamp, endDate: pd.Timestamp):
@@ -23,3 +24,12 @@ def combine(tickers1: np.ndarray, tickers2: np.ndarray):
 def uniqueValues(tickers: np.ndarray) -> np.ndarray:
     """Return a unique array of tickers"""
     return np.unique(tickers)
+
+
+def splitIterableEvenly(iterable, size: int):
+    """Splits an iterable into smaller chunks"""
+    i = iter(iterable)
+    piece = list(itertools.islice(i, size))
+    while piece:
+        yield piece
+        piece = list(itertools.islice(i, size))
