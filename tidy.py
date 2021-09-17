@@ -18,4 +18,4 @@ def melt(df:DataFrame, id_var_list:list, var_name:str, value_name:str) -> DataFr
         id_var_list.insert(0, idx_name)
     return data.melt(id_vars=id_var_list, var_name=var_name, value_name=value_name)
 
-
+# TODO, rewrite for OOP
