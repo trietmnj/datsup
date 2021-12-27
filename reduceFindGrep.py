@@ -43,9 +43,12 @@ def main(input_file: str, output_file: str, mode: str):
         out = ["/".join(x.split("/")[:-1]) for x in files]
     if (mode == "file"):
         out = files
+        
+    write_lst = list(set(out))
+    write_lst.sort()
 
     with open(output_file, "w") as f:
-        for e in list(set(out)):
+        for e in write_lst:
             if (e != ""):
                 f.write(e + "\n")
 
