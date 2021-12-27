@@ -3,9 +3,10 @@ v1.0 26DEC2021
 
 Reduce output from a find/grep operation
 
-find . \( -name .git -o -name node_modules -o -name vendor \) -type d -prune -o -type f ! \( -name '*.csv' -o -name '*.json' -o -name '*.map' \) -print0 | xargs -0 -P 4 grep -nI -e 'statistic' > grepStatistic.txt
-
-python3 reduceFindGrep.py -i "/mnt/a/Dev/grepCoreUi.txt"
+Generator:
+    find . \( -name .git -o -name node_modules -o -name vendor \) -type d -prune -o -type f ! \( -name '*.csv' -o -name '*.json' -o -name '*.map' \) -print0 | xargs -0 -P 4 grep -nI -e 'statistic' > grepStatistic.txt
+Usage:
+    python3 reduceFindGrep.py -i "/mnt/a/Dev/grepCoreUi.txt" -o "test.txt" -m file
 """
 
 import argparse
